@@ -63,7 +63,7 @@ if (
 }
 require_once '../includes/header.php';
 ?>
-
+<main class="container">
 <form action="" method="post" enctype="multipart/form-data" class="form-add-article my-5">
   <div class="form-floating mb-3">
     <input type="text" name="titre" id="titre" class="form-control" placeholder="Titre de l'article" required>
@@ -80,6 +80,7 @@ require_once '../includes/header.php';
   </div>
   <button class="btn btn-primary">Envoyer</button>
 </form>
+</main>
 
 
 

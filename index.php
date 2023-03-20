@@ -44,7 +44,7 @@ require_once './core/includes/header.php';
                     <div class="card h-100">
                         <img src="<?= $row["image"] ?>" class="card-img-top" alt="">
                         <div class="card-body">
-                            <h2 class="card-title"><?= $row["titre"]; ?></h2>
+                            <h2 class="card-title"><?=substr($row["titre"], 0, 23); ?>...</h2>
                             <p class="card-text"><?= strip_tags(substr($row["contenu"], 0, 50)); ?>...</p>
                             <p class="card-text"><?= $row["pseudo"] ?? ""; ?></p>
                         </div>

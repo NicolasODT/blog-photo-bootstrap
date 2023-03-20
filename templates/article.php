@@ -16,7 +16,7 @@ if (isset($_GET["slug"])) {
         require_once '../core/includes/header.php';
 ?>
 
-<main class="main-article">
+<main class="main-article container">
     <img class="img-article" src="<?= $article["image"] ?>" alt="<?= $article["titre"] ?>" style="width:100%;height:400px;object-fit: cover;">
     <h2><?= $article["titre"] ?></h2>
     <p class="message-article"><?= $article["contenu"] ?></p>
