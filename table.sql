@@ -39,6 +39,6 @@ CREATE TABLE
         date_creation DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         id_article INT(11) UNSIGNED NOT NULL,
         id_utilisateur INT(11) UNSIGNED NOT NULL,
-        FOREIGN KEY (id_article) REFERENCES Article(id),
+        FOREIGN KEY (id_article) REFERENCES Article(id) ON DELETE CASCADE,
         FOREIGN KEY (id_utilisateur) REFERENCES Utilisateur(id)
     );
