@@ -3,9 +3,9 @@
 CREATE TABLE
     Utilisateur (
         id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        email VARCHAR(120) NOT NULL,
+        email VARCHAR(120) NOT NULL UNIQUE,
         hash VARCHAR(60) NOT NULL,
-        pseudo VARCHAR(255) NOT NULL,
+        pseudo VARCHAR(255) NOT NULL UNIQUE,
         role ENUM(
             'utilisateur',
             'editeur',
@@ -23,7 +23,7 @@ ADD
 CREATE TABLE
     Article (
         id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        titre VARCHAR(255) NOT NULL,
+        titre VARCHAR(255) NOT NULL UNIQUE,
         contenu TEXT NOT NULL,
         slug VARCHAR(255),
         image VARCHAR(255),
