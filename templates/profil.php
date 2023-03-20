@@ -84,7 +84,7 @@ require_once '../core/includes/header.php';
     ?>
         <div class="col-md-4">
         <div class="commentaire border rounded">
-            <h3>Article : <?= $commentaire["article_titre"] ?></h3>
+            <h3>Article : <?= substr($commentaire["article_titre"], 0, 23) ?></h3>
             <img src="<?= $commentaire["article_image"] ?>" alt="<?= $commentaire["article_titre"] ?>" class="img-fluid img-thumbnail" style="width:150px;height:auto;">
             <p><?= $commentaire["message"] ?></p>
             <p class="date"><?= $commentaire["date_creation"] ?></p>
