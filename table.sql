@@ -5,7 +5,7 @@ CREATE TABLE
         id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         email VARCHAR(120) NOT NULL UNIQUE,
         hash VARCHAR(60) NOT NULL,
-        pseudo VARCHAR(255) NOT NULL UNIQUE,
+        pseudo VARCHAR(60) NOT NULL UNIQUE,
         role ENUM(
             'utilisateur',
             'editeur',

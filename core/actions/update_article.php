@@ -15,15 +15,15 @@ if (isset($_SESSION['id']) && ($_SESSION['role'] == 'editeur' || $_SESSION['role
         $slug = htmlspecialchars($_POST['slug']);
 
         // Vérifie si une image a été téléchargée et traite-la si oui
-        if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-            $image = $_FILES['image'];
+        if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
+            $image = $_FILES['file'];
             $extension = pathinfo($image['name'], PATHINFO_EXTENSION);
             $filename = uniqid() . '.' . $extension;
             move_uploaded_file($image['tmp_name'], '../../public/media/' . $filename);
-        
+
             $imagePath = '../../public/media/' . $filename;
-        
-             // Met à jour les données de l'article sans changer l'image
+
+            // Met à jour les données de l'article sans changer l'image
             $sql = "UPDATE Article SET titre = :titre, contenu = :contenu, slug = :slug, image = :image WHERE id = :id";
             $query = $bdd->prepare($sql);
             $query->bindParam(":image", $imagePath);
@@ -31,7 +31,7 @@ if (isset($_SESSION['id']) && ($_SESSION['role'] == 'editeur' || $_SESSION['role
             $sql = "UPDATE Article SET titre = :titre, contenu = :contenu, slug = :slug WHERE id = :id";
             $query = $bdd->prepare($sql);
         }
-        
+
         // Exécute la requête pour mettre à jour l'article dans la base de données
         $query->bindParam(":id", $id);
         $query->bindParam(":titre", $titre);
@@ -51,4 +51,3 @@ if (isset($_SESSION['id']) && ($_SESSION['role'] == 'editeur' || $_SESSION['role
     header("Location: ../../index.php");
     exit();
 }
-?>

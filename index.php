@@ -27,13 +27,16 @@ require_once './core/includes/header.php';
 
         // Construction de la requête SQL en fonction de la présence ou non d'un mot-clé de recherche
         if (isset($_GET['search'])) {
-            $search = $_GET['search'];
-            $sql = "SELECT a.*, u.pseudo FROM Article a JOIN Utilisateur u ON a.id_utilisateur = u.id WHERE a.titre LIKE '%$search%' OR u.pseudo LIKE '%$search%' ORDER BY a.date_creation DESC LIMIT $limit OFFSET $offset";
+            $search = '%' . $_GET['search'] . '%';
+            $sql = "SELECT a.*, u.pseudo FROM Article a JOIN Utilisateur u ON a.id_utilisateur = u.id WHERE a.titre LIKE ? OR u.pseudo LIKE ? ORDER BY a.date_creation DESC LIMIT $limit OFFSET $offset";
+            $stmt = $bdd->prepare($sql);
+            $stmt->execute([$search, $search ]);
         } else {
             $sql = "SELECT a.*, u.pseudo FROM Article a JOIN Utilisateur u ON a.id_utilisateur = u.id ORDER BY a.date_creation DESC LIMIT $limit OFFSET $offset";
+            $stmt = $bdd->prepare($sql);
+            $stmt->execute();
         }
-        $stmt = $bdd->prepare($sql);
-        $stmt->execute();
+
         $result = $stmt->fetchAll();
 
         // Affichage des cartes d'articles
@@ -42,9 +45,9 @@ require_once './core/includes/header.php';
         ?>
                 <div class="col">
                     <div class="card h-100">
-                        <img src="<?= $row["image"] ?>" class="card-img-top" alt="">
-                        <div class="card-body">
-                            <h2 class="card-title"><?= substr($row["titre"], 0, 23); ?>...</h2>
+                        <img src="<?= $row["image"] ?>" class="card-img-top" alt="" style="width: auto;height:250px;object-fit: cover;">
+                        <div class=" card-body">
+                            <h2 class="card-title"><?= substr($row["titre"], 0, 20); ?>...</h2>
                             <p class="card-text"><?= strip_tags(substr($row["contenu"], 0, 50)); ?>...</p>
                             <p class="card-text"><?= $row["pseudo"] ?? ""; ?></p>
                         </div>
@@ -63,38 +66,39 @@ require_once './core/includes/header.php';
 
     <?php
 
-    // Construction de la chaîne de requête pour la pagination en fonction de la présence ou non d'un mot-clé de recherche
+     // Construction de la chaîne de requête pour la pagination en fonction de la présence ou non d'un mot-clé de recherche
     $search_query = isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '';
     ?>
-   <div class="d-flex justify-content-center my-3">
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <?php if ($page > 1): ?>
-                <!-- Lien vers la page précédente si la page actuelle n'est pas la première -->
-                <li class="page-item">
-                    <a href="?page=<?= $page - 1 . $search_query ?>" class="page-link">Précédent</a>
-                </li>
-            <?php endif; ?>
-            <?php
-            // Calcul du nombre total de pages
-            $total_pages = ceil($bdd->query('SELECT COUNT(*) FROM Article')->fetchColumn() / $limit);
-            // Affichage des liens de pagination
-            for ($i = 1; $i <= $total_pages; $i++) :
-            ?>
-                <li class="page-item <?php if ($i === $page) {echo 'active';} ?>">
-                    <a href="?page=<?= $i . $search_query ?>" class="page-link"><?= $i ?></a>
-                </li>
-            <?php endfor; ?>
-            <?php if ($page < $total_pages): ?>
-                <!-- Lien vers la page suivante si la page actuelle n'est pas la dernière -->
-                <li class="page-item">
-                    <a href="?page=<?= $page + 1 . $search_query ?>" class="page-link">Suivant</a>
-                </li>
-            <?php endif; ?>
-        </ul>
-    </nav>
-</div>
-            </main>
+    <div class="d-flex justify-content-center my-3">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <?php if ($page > 1) : ?>
+                    <li class="page-item">
+                        <a href="?page=<?= $page - 1 . $search_query ?>" class="page-link">Précédent</a>
+                    </li>
+                <?php endif; ?>
+    
+                <?php
+                 // Calcul du nombre total de pages
+                $total_pages = ceil($bdd->query('SELECT COUNT(*) FROM Article')->fetchColumn() / $limit);
+                 // Affichage des liens de pagination
+                for ($i = 1; $i <= $total_pages; $i++) :
+                    $active_class = ($i === $page) ? 'active' : '';
+                ?>
+                    <li class="page-item <?= $active_class ?>">
+                        <a href="?page=<?= $i . $search_query ?>" class="page-link"><?= $i ?></a>
+                    </li>
+                <?php endfor; ?>
+    
+                <?php if ($page < $total_pages) : ?>
+                    <li class="page-item">
+                        <a href="?page=<?= $page + 1 . $search_query ?>" class="page-link">Suivant</a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </nav>
+    </div>
+    </main>
 
 <?php
 require_once './core/includes/footer.php';

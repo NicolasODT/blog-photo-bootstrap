@@ -43,13 +43,13 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST['g-recap
                 $_SESSION['pseudo'] = $results['pseudo'];
                 header('location: ../index.php');
             } else {
-                echo '<div class="alert alert-danger" role="alert">Mot de passe incorrect</div>';
+                $errorMsg = 'Mot de passe incorrect';
             }
         } else {
-            echo '<div class="alert alert-danger" role="alert">Email non trouvé</div>';
+            $errorMsg = 'Email non trouvé';
         }
     } else {
-        echo '<div class="alert alert-danger" role="alert">Erreur reCAPTCHA</div>';
+        $errorMsg = 'Erreur reCAPTCHA';
     }
 }
 
@@ -63,8 +63,11 @@ require_once '../core/includes/header.php';
                 <div class="card-header">
                     <h1 class="card-title">Connexion</h1>
                 </div>
-                <div class="card-body">
+                <div class="card-body ">
                     <form action="" method="post" class="form-login">
+                        <?php if (!empty($errorMsg)) { ?>
+                            <p class="alert alert-danger"><?= $errorMsg ?></p>
+                        <?php } ?>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email ou pseudo</label>
                             <input type="text" name="email" id="email" class="form-control" required>
@@ -73,10 +76,10 @@ require_once '../core/includes/header.php';
                             <label for="password" class="form-label">Mot de passe</label>
                             <input type="password" name="password" id="password" class="form-control" required>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 d-flex justify-content-center">
                             <div class="g-recaptcha" data-sitekey="6LeMHRElAAAAACgEgUGBNqALUexnqykdbjJq7z-O"></div>
                         </div>
-                        <button class="btn btn-primary">Connexion</button>
+                        <button class="btn btn-primary w-100">Connexion</button>
                     </form>
                 </div>
             </div>

@@ -4,7 +4,7 @@ require_once '../core/includes/connect.php';
 
 // Vérifie si l'utilisateur est connecté
 if (!isset($_SESSION['id'])) {
-    header("Location: login.php");
+  header("Location: login.php");
 }
 
 // Récupère l'utilisateur
@@ -28,16 +28,16 @@ $commentaires = $stmt->fetchAll();
 
 // Met à jour les informations de l'utilisateur
 if (isset($_POST['submit'])) {
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $ville = htmlspecialchars($_POST['ville']);
-    $pays = htmlspecialchars($_POST['pays']);
+  $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+  $ville = htmlspecialchars($_POST['ville']);
+  $pays = htmlspecialchars($_POST['pays']);
 
-    $query = "UPDATE Utilisateur SET hash = ?, ville = ?, pays = ? WHERE id = ?";
-    $stmt = $bdd->prepare($query);
-    $stmt->execute([$password, $ville, $pays, $_SESSION['id']]);
+  $query = "UPDATE Utilisateur SET hash = ?, ville = ?, pays = ? WHERE id = ?";
+  $stmt = $bdd->prepare($query);
+  $stmt->execute([$password, $ville, $pays, $_SESSION['id']]);
 
-    header("Location: profil.php");
-    exit;
+  header("Location: profil.php");
+  exit;
 }
 
 require_once '../core/includes/header.php';
@@ -54,12 +54,12 @@ require_once '../core/includes/header.php';
           <input type="email" name="email" id="email" class="form-control" value="<?= $utilisateur['email'] ?>" disabled>
         </div>
         <div class="form-group">
-          <label for="password">Nouveau mot de passe:</label>
-          <input type="password" name="password" id="password" class="form-control" placeholder="*********" required>
-        </div>
-        <div class="form-group">
           <label for="pseudo">Pseudo</label>
           <input type="text" name="pseudo" id="pseudo" class="form-control" value="<?= $utilisateur['pseudo'] ?>" disabled>
+        </div>
+        <div class="form-group">
+          <label for="password">Nouveau mot de passe:</label>
+          <input type="password" name="password" id="password" class="form-control" placeholder="*********" required>
         </div>
         <div class="form-group">
           <label for="ville">Ville:</label>
@@ -69,40 +69,40 @@ require_once '../core/includes/header.php';
           <label for="pays">Pays:</label>
           <input type="text" name="pays" id="pays" class="form-control" value="<?= $utilisateur['pays'] ?>">
         </div>
-        <button type="submit" name="submit" class="btn btn-primary">Enregistrer</button>
+        <button type="submit" name="submit" class="btn btn-primary mt-2 w-100">Enregistrer</button>
       </form>
     </div>
   </div>
   <section class="commentaires mt-5">
-  <h2 class="text-center">Vos commentaires</h2>
-  <div class="row">
-    <?php
-    // Vérifie s'il y a des commentaires à afficher
-    if (count($commentaires) > 0) {
-      // Affiche chaque commentaire récupéré de la base de données
-      foreach ($commentaires as $commentaire) {
-    ?>
-        <div class="col-md-4">
-        <div class="commentaire border rounded">
-            <h3>Article : <?= substr($commentaire["article_titre"], 0, 23) ?></h3>
-            <img src="<?= $commentaire["article_image"] ?>" alt="<?= $commentaire["article_titre"] ?>" class="img-fluid img-thumbnail" style="width:150px;height:auto;">
-            <p><?= $commentaire["message"] ?></p>
-            <p class="date"><?= $commentaire["date_creation"] ?></p>
+    <h2 class="text-center">Vos commentaires</h2>
+    <div class="row">
+      <?php
+      // Vérifie s'il y a des commentaires à afficher
+      if (count($commentaires) > 0) {
+        // Affiche chaque commentaire récupéré de la base de données
+        foreach ($commentaires as $commentaire) {
+      ?>
+          <div class="col-md-4">
+            <div class="commentaire border rounded">
+              <h3>Article : <?= substr($commentaire["article_titre"], 0, 16) ?>...</h3>
+              <img src="<?= $commentaire["article_image"] ?>" alt="<?= $commentaire["article_titre"] ?>" class="img-fluid img-thumbnail" style="width:180px;height:130px;object-fit: cover;">
+              <p><?= $commentaire["message"] ?></p>
+              <p class="date"><?= $commentaire["date_creation"] ?></p>
             </div>
-        </div>
-    <?php
+          </div>
+      <?php
+        }
+      } else {
+        echo "<p class='text-center'>Aucun commentaire trouvé.</p>";
       }
-    } else {
-      echo "<p class='text-center'>Aucun commentaire trouvé.</p>";
-    }
-    ?>
-  </div>
-</section>
+      ?>
+    </div>
+  </section>
 
 
   <nav aria-label="Pagination" class="mt-5">
     <ul class="pagination justify-content-center">
-      <?php if ($page > 1): ?>
+      <?php if ($page > 1) : ?>
         <li class="page-item">
           <a href="?page=<?= $page - 1 ?>" class="page-link" aria-label="Précédent">
             <span aria-hidden="true">&laquo;</span>
@@ -110,7 +110,7 @@ require_once '../core/includes/header.php';
           </a>
         </li>
       <?php endif; ?>
-      <?php if (count($commentaires) == $limit): ?>
+      <?php if (count($commentaires) == $limit) : ?>
         <li class="page-item">
           <a href="?page=<?= $page + 1 ?>" class="page-link" aria-label="Suivant">
             <span aria-hidden="true">&raquo;</span>
@@ -120,8 +120,8 @@ require_once '../core/includes/header.php';
       <?php endif; ?>
     </ul>
   </nav>
-      </main>
+</main>
 
-      <?php
+<?php
 require_once '../core/includes/footer.php';
 ?>
