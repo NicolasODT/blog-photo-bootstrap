@@ -21,7 +21,7 @@ if (isset($_GET["slug"])) {
     <h2><?= $article["titre"] ?></h2>
     <p class="message-article"><?= $article["contenu"] ?></p>
 
-    <?php if (isset($_SESSION["id"])) { ?>
+    <?php if (isset($_SESSION["id"])) : ?>
         <!-- Formulaire pour ajouter un commentaire -->
         <form method="post" action="../core/actions/add_comment.php?slug=<?= $slug ?>">
             <div class="form-group">
@@ -31,7 +31,7 @@ if (isset($_GET["slug"])) {
             <input type="hidden" name="id_article" value="<?= $article["id"] ?>">
             <button class="btn btn-primary">Envoyer</button>
         </form>
-    <?php } ?>
+    <?php endif; ?>
 
     <section class="commentaires mt-5">
         <h3>Commentaires</h3>
