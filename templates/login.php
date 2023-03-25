@@ -10,6 +10,8 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST['g-recap
     $recaptchaUrl = 'https://www.google.com/recaptcha/api/siteverify';
     $recaptchaSecret = '6LeMHRElAAAAAI40BMkqAmWsQ5MaJiLizJqdp4p4';
 
+    //file_get_contents() récupère le contenu d'un fichier dans une chaîne
+    //json_decode() décode une chaîne JSON
     $recaptcha = file_get_contents($recaptchaUrl . '?secret=' . $recaptchaSecret . '&response=' . $recaptchaResponse);
     $recaptcha = json_decode($recaptcha);
 

@@ -4,6 +4,7 @@ require_once '../includes/connect.php';
 
 if (isset($_POST['message']) && isset($_POST['id_article'])) {
     // Récupération des données du formulaire
+    // htmlspecialchars() permet de convertir les caractères spéciaux en entités HTML
     $message = htmlspecialchars($_POST['message']);
     $id_article = htmlspecialchars($_POST['id_article']);
 

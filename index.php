@@ -40,6 +40,8 @@ require_once './core/includes/header.php';
         $result = $stmt->fetchAll();
 
         // Affichage des cartes d'articles
+        // substr() retourne une partie d'une chaîne 0 à 20/50 caractères
+        // strip_tags() supprime les balises HTML
         if (count($result) > 0) {
             foreach ($result as $row) {
         ?>
@@ -67,6 +69,7 @@ require_once './core/includes/header.php';
     <?php
 
      // Construction de la chaîne de requête pour la pagination en fonction de la présence ou non d'un mot-clé de recherche
+     // urlencode() encode une chaîne de caractères en la convertissant en une version compatible avec les URL
     $search_query = isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '';
     ?>
     <div class="d-flex justify-content-center my-3">
@@ -79,7 +82,9 @@ require_once './core/includes/header.php';
                 <?php endif; ?>
     
                 <?php
-                 // Calcul du nombre total de pages
+                // Calcul du nombre total de pages
+                // ceil arrondit un nombre à l'entier supérieur le plus proche.
+                // fetchColumn() retourne la première colonne de la première ligne du jeu de résultats.
                 $total_pages = ceil($bdd->query('SELECT COUNT(*) FROM Article')->fetchColumn() / $limit);
                  // Affichage des liens de pagination
                 for ($i = 1; $i <= $total_pages; $i++) :

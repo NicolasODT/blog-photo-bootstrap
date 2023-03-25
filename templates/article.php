@@ -43,6 +43,7 @@ if (isset($_GET["slug"])) {
         $query->execute();
         $commentaires = $query->fetchAll();
 
+        //count() retourne le nombre d'éléments d'un tableau
         if (count($commentaires) > 0) {
             // Affiche chaque commentaire
             foreach ($commentaires as $commentaire) {

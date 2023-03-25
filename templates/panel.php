@@ -21,8 +21,9 @@ if (isset($_GET['search'])) {
     $utilisateurs = $stmt->fetchAll();
 }
 require_once '../core/includes/header.php';
-?>
 
+// htmlspecialchars() convertit les caractères spéciaux en entités HTML
+?>
     <div class="container">
         <h1 class="my-5">Liste des utilisateurs</h1>
 

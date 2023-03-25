@@ -12,16 +12,19 @@ if (
   if ($_POST["password"] == $_POST["password2"]) {
 
     // Validation de l'adresse email
+    // filter_var() permet de valider une chaîne selon un filtre
     if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
       $errorMsg = "Adresse email invalide";
     } else {
 
       // Vérification que le mot de passe est suffisamment long
+      // strlen() compte le nombre de caractères d'une chaîne
       if (strlen($_POST["password"]) < 8) {
         $errorMsg = "Le mot de passe doit contenir au moins 8 caractères";
       } else {
 
         // Vérification que le mot de passe est suffisamment complexe
+        // preg_match() effectue une recherche de correspondance avec une expression rationnelle
         $uppercase = preg_match('@[A-Z]@', $_POST["password"]);
         $lowercase = preg_match('@[a-z]@', $_POST["password"]);
         $number    = preg_match('@[0-9]@', $_POST["password"]);
@@ -31,6 +34,8 @@ if (
         } else {
 
           // Nettoyage des données
+          // htmlspecialchars() convertit les caractères spéciaux en entités HTML
+          // trim() supprime les espaces (ou d'autres caractères) en début et fin de chaîne
           $email = htmlspecialchars(trim($_POST["email"]));
           $password = htmlspecialchars(trim($_POST["password"]));
           $options = [

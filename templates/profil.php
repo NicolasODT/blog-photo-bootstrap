@@ -14,6 +14,8 @@ $stmt->execute([$_SESSION['id']]);
 $utilisateur = $stmt->fetch();
 
 // Récupère les commentaires de l'utilisateur
+// is_numeric() vérifie si la variable est un nombre
+// intval() convertit une variable en nombre entier
 $limit = 6; // Nombre de commentaires par page
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
 $offset = ($page - 1) * $limit; // Calcul de l'offset
@@ -27,6 +29,8 @@ $stmt->execute();
 $commentaires = $stmt->fetchAll();
 
 // Met à jour les informations de l'utilisateur
+// password_hash() crypte le mot de passe
+// htmlspecialchars() convertit les caractères spéciaux en entités HTML
 if (isset($_POST['submit'])) {
   $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
   $ville = htmlspecialchars($_POST['ville']);
@@ -80,6 +84,7 @@ require_once '../core/includes/header.php';
       // Vérifie s'il y a des commentaires à afficher
       if (count($commentaires) > 0) {
         // Affiche chaque commentaire récupéré de la base de données
+        // substr() permet de tronquer le titre de l'article à 16 caractères
         foreach ($commentaires as $commentaire): ?>
           <div class="col-md-4">
             <div class="commentaire border rounded">

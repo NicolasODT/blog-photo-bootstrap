@@ -17,8 +17,12 @@ if (isset($_SESSION['id']) && ($_SESSION['role'] == 'editeur' || $_SESSION['role
         // Vérifie si une image a été téléchargée et traite-la si oui
         if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
             $image = $_FILES['file'];
+            //pathinfo() retourne des informations sur un chemin de fichier
+            //pathinfo_extension retourne l'extension du fichier
             $extension = pathinfo($image['name'], PATHINFO_EXTENSION);
+            // uniqueid() génère un identifiant unique
             $filename = uniqid() . '.' . $extension;
+            // move_uploaded_file() déplace le fichier téléchargé dans le répertoire spécifié
             move_uploaded_file($image['tmp_name'], '../../public/media/' . $filename);
 
             $imagePath = '../../public/media/' . $filename;

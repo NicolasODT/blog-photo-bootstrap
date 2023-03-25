@@ -5,15 +5,18 @@ session_start();
 function slugify($text)
 {
   // Remplace les caractères spéciaux par des tirets
+  // preg_replace() est utilisé pour la compatibilité avec les caractères non latins
   $text = preg_replace('~[^\pL\d]+~u', '-', $text);
 
   // Convertit en minuscules
+  //mb_strtolower() est utilisé pour la compatibilité avec les caractères non latins
   $text = mb_strtolower($text, 'UTF-8');
 
   // Supprime tout caractère non alphanumérique ou tiret en début et fin de chaîne
   $text = trim($text, '-');
 
   // Supprime les doubles tirets
+  // preg_replace() est utilisé pour la compatibilité avec les caractères non latins
   $text = preg_replace('~-+~', '-', $text);
 
   // Retourne la chaîne convertie
@@ -32,8 +35,10 @@ if (
   $utilisateur_id = $_SESSION['id'];
 
   $target_dir = "../../public/media/";
+  // basename() peut empêcher les attaques de système de fichiers;
   $image_name = basename($_FILES["file"]["name"]);
   $target_file = $target_dir . $image_name;
+  // move_uploaded_file() peut empêcher les attaques de système de fichiers;
   move_uploaded_file($_FILES["file"]["tmp_name"], $target_file);
 
 
