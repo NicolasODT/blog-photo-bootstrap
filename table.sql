@@ -42,3 +42,15 @@ CREATE TABLE
         FOREIGN KEY (id_article) REFERENCES Article(id) ON DELETE CASCADE,
         FOREIGN KEY (id_utilisateur) REFERENCES Utilisateur(id)
     );
+
+-- le premier utilisateur créé sera automatiquement admin
+
+CREATE TRIGGER SET_FIRST_USER_AS_ADMIN BEFORE INSERT 
+ON UTILISATEUR FOR EACH ROW BEGIN 
+	IF (
+	    SELECT COUNT(*)
+	    FROM Utilisateur
+	) = 0 THEN
+	SET NEW.role = 'admin';
+	END IF;
+END; 
