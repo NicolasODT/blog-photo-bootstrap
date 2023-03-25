@@ -47,20 +47,20 @@ if (isset($_POST['submit'])) {
 
 require_once '../core/includes/header.php';
 
+// ucfirst() met la première lettre en majuscule
 ?>
-
 <main class="container my-5">
-  <h1 class="text-center">Profil de <?= $utilisateur['pseudo'] ?></h1>
+  <h1 class="text-center">Profil de <?= ucfirst($utilisateur['pseudo']) ?></h1>
   <div class="row">
     <div class="col-md-6 mx-auto">
       <form action="" method="post" class="form-profil mt-4">
         <div class="form-group">
           <label for="email">E-mail</label>
-          <input type="email" name="email" id="email" class="form-control" value="<?= $utilisateur['email'] ?>" disabled>
+          <input type="email" name="email" id="email" class="form-control" value="<?= ucfirst($utilisateur['email']) ?>" disabled>
         </div>
         <div class="form-group">
           <label for="pseudo">Pseudo</label>
-          <input type="text" name="pseudo" id="pseudo" class="form-control" value="<?= $utilisateur['pseudo'] ?>" disabled>
+          <input type="text" name="pseudo" id="pseudo" class="form-control" value="<?= ucfirst($utilisateur['pseudo']) ?>" disabled>
         </div>
         <div class="form-group">
           <label for="password">Nouveau mot de passe:</label>
@@ -68,11 +68,11 @@ require_once '../core/includes/header.php';
         </div>
         <div class="form-group">
           <label for="ville">Ville:</label>
-          <input type="text" name="ville" id="ville" class="form-control" value="<?= $utilisateur['ville'] ?>">
+          <input type="text" name="ville" id="ville" class="form-control" value="<?= ucfirst($utilisateur['ville']) ?>">
         </div>
         <div class="form-group">
           <label for="pays">Pays:</label>
-          <input type="text" name="pays" id="pays" class="form-control" value="<?= $utilisateur['pays'] ?>">
+          <input type="text" name="pays" id="pays" class="form-control" value="<?= ucfirst($utilisateur['pays']) ?>">
         </div>
         <button name="submit" class="btn btn-primary mt-2 w-100">Enregistrer</button>
       </form>
@@ -85,7 +85,7 @@ require_once '../core/includes/header.php';
       // Vérifie s'il y a des commentaires à afficher
       if (count($commentaires) > 0) {
         // Affiche chaque commentaire récupéré de la base de données
-        // substr() permet de tronquer le titre de l'article à 16 caractères
+        // substr() permet de tronquer le titre de l'article à 16 caractères de 0 à 16
         foreach ($commentaires as $commentaire): ?>
           <div class="col-md-4">
             <div class="commentaire border rounded">
