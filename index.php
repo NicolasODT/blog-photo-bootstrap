@@ -12,7 +12,7 @@ require_once './core/includes/header.php';
     <form class="d-flex justify-content-center my-3" action="" method="get">
         <div class="input-group">
             <input type="search" name="search" class="form-control form-control-lg" placeholder="Recherche..." value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
-            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+            <button class="btn btn-primary"><i class="fas fa-search"></i></button>
         </div>
     </form>
 
@@ -21,11 +21,12 @@ require_once './core/includes/header.php';
         require_once './core/includes/connect.php';
 
         // Définition des variables de pagination
-        $limit = 10;
+        $limit = 10; // nombre d'articles par page
         $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
-        $offset = ($page - 1) * $limit;
-
-        // Construction de la requête SQL en fonction de la présence ou non d'un mot-clé de recherche
+        $offset = ($page - 1) * $limit; // nombre d'articles à sauter pour atteindre la page demandée
+        
+        // Construction de la requête SQL selon la présence ou non d'un mot-clé de recherche
+        // les ? sont des paramètres qui seront remplacés par les valeurs du tableau [$search, $search]
         if (isset($_GET['search'])) {
             $search = '%' . $_GET['search'] . '%';
             $sql = "SELECT a.*, u.pseudo FROM Article a JOIN Utilisateur u ON a.id_utilisateur = u.id WHERE a.titre LIKE ? OR u.pseudo LIKE ? ORDER BY a.date_creation DESC LIMIT $limit OFFSET $offset";
@@ -39,8 +40,8 @@ require_once './core/includes/header.php';
 
         $result = $stmt->fetchAll();
 
-        // Affichage des cartes d'articles
-        // substr() retourne une partie d'une chaîne 0 à 20/50 caractères
+        // Affichage des cartes d'articles en limitant le titre et le contenu
+        // substr() retourne une partie d'une chaîne de caractères (0 à 20/50 caractères)
         // strip_tags() supprime les balises HTML
         if (count($result) > 0) {
             foreach ($result as $row) {
@@ -68,8 +69,8 @@ require_once './core/includes/header.php';
 
     <?php
 
-     // Construction de la chaîne de requête pour la pagination en fonction de la présence ou non d'un mot-clé de recherche
-     // urlencode() encode une chaîne de caractères en la convertissant en une version compatible avec les URL
+        // Préparation de la chaîne de requête pour la pagination selon la présence ou non d'un mot-clé de recherche
+        // urlencode() encode une chaîne de caractères en la convertissant en une version compatible avec les URL
     $search_query = isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '';
     ?>
     <div class="d-flex justify-content-center my-3">
@@ -83,11 +84,13 @@ require_once './core/includes/header.php';
     
                 <?php
                 // Calcul du nombre total de pages
-                // ceil arrondit un nombre à l'entier supérieur le plus proche.
+                // ceil() arrondit un nombre à l'entier supérieur le plus proche.
                 // fetchColumn() retourne la première colonne de la première ligne du jeu de résultats.
                 $total_pages = ceil($bdd->query('SELECT COUNT(*) FROM Article')->fetchColumn() / $limit);
                  // Affichage des liens de pagination
+                // $i est égal à 1, tant que $i est inférieur ou égal au nombre total de pages, on incrémente $i de 1
                 for ($i = 1; $i <= $total_pages; $i++) :
+                    // Si $i est égal à la page courante, on ajoute la classe "active" à la balise <li>
                     $active_class = ($i === $page) ? 'active' : '';
                 ?>
                     <li class="page-item <?= $active_class ?>">

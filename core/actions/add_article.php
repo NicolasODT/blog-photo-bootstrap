@@ -45,7 +45,7 @@ if (
   // Générer le slug
   $slug = slugify($titre);
 
-  //connexion DB
+  //connexion à la base de données
   require_once "../includes/connect.php";
 
   $sql = "INSERT INTO article (titre, contenu, image, id_utilisateur, slug) VALUES (:titre,

@@ -14,10 +14,12 @@ $stmt = $bdd->query($query);
 $utilisateurs = $stmt->fetchAll();
 
 // Recherche des utilisateurs en fonction d'une chaîne de caractères
+// les ? sont des paramètres qui seront remplacés par les valeurs du tableau [$search, $search]
 if (isset($_GET['search'])) {
-    $search = $_GET['search'];
-    $query = "SELECT id, pseudo, email, role, actif FROM Utilisateur WHERE pseudo LIKE '%$search%' OR email LIKE '%$search%'";
-    $stmt = $bdd->query($query);
+    $search = '%' . $_GET['search'] . '%';
+    $query = "SELECT id, pseudo, email, role, actif FROM Utilisateur WHERE pseudo LIKE ? OR email LIKE ?";
+    $stmt = $bdd->prepare($query);
+    $stmt->execute([$search, $search]);
     $utilisateurs = $stmt->fetchAll();
 }
 require_once '../core/includes/header.php';

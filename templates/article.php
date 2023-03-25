@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+// Vérification de l'existence du paramètre "slug" dans l'URL
 if (isset($_GET["slug"])) {
     require_once "../core/includes/connect.php";
 
@@ -12,6 +14,7 @@ if (isset($_GET["slug"])) {
     $query->execute();
     $article = $query->fetch();
 
+    // Si l'article existe, afficher le contenu de l'article
     if ($article) {
         require_once '../core/includes/header.php';
 ?>

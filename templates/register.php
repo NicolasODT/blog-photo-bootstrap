@@ -38,6 +38,8 @@ if (
           // trim() supprime les espaces (ou d'autres caractères) en début et fin de chaîne
           $email = htmlspecialchars(trim($_POST["email"]));
           $password = htmlspecialchars(trim($_POST["password"]));
+          // $options est un tableau qui contient les options de hachage et cost est le coût du hachage c'est à dire le nombre d'itérations
+          // plus le coût est élevé plus le hachage est sécurisé mais plus il est long à générer
           $options = [
             'cost' => 12,
           ];

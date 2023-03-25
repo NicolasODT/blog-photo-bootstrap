@@ -36,6 +36,7 @@ if (isset($_POST['submit'])) {
   $ville = htmlspecialchars($_POST['ville']);
   $pays = htmlspecialchars($_POST['pays']);
 
+  // les ? sont des paramètres qui seront remplacés par les valeurs du tableau [$password, $ville, $pays, $_SESSION['id']]
   $query = "UPDATE Utilisateur SET hash = ?, ville = ?, pays = ? WHERE id = ?";
   $stmt = $bdd->prepare($query);
   $stmt->execute([$password, $ville, $pays, $_SESSION['id']]);

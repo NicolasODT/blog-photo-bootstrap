@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Vérifie si les informations de connexion ont été envoyées par le formulaire
+// Vérifie si les informations de connexion ont été envoyées par le formulaire et si le captcha a été renseigné
 if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST['g-recaptcha-response'])) {
 
     // Vérifie le recaptcha

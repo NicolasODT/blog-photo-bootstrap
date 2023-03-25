@@ -1,9 +1,12 @@
+
+// la fonction fais une preview de l'image et change le display de l'image par défaut
 function previewImage() {
   const preview = document.getElementById("image-preview");
   const preview2 = document.getElementById("image-preview2");
   const file = document.querySelector("input[type=file]").files[0];
   const reader = new FileReader();
 
+  // Change le display de l'image par défaut
   if (file) {
     reader.addEventListener(
       "load",
@@ -21,6 +24,7 @@ function previewImage() {
   }
 }
 
+// la fonction permet de changer l'image par défaut par une autre image
 const fileInput = document.getElementById("fileInput");
 if (fileInput) {
   fileInput.addEventListener("change", previewImage);
@@ -42,7 +46,8 @@ tinymce.init({
   ],
 });
 
-/* delete article */
+
+// message de confirmation de suppression d'un article
 
 const deleteBtn = document.getElementById("delete-btn");
 
