@@ -24,22 +24,21 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav">
-                <?php if (isset($_SESSION["id"])) {
-                    if ($_SESSION["role"] == "admin") { ?>
-                        <li class="nav-item"><a class="nav-link" href="../../templates/panel.php">Panel</a></li>
-                    <?php }
-                    if ($_SESSION["role"] == "admin" || $_SESSION["role"] == "editeur") { ?>
-                        <li class="nav-item"><a class="nav-link" href="../../core/actions/add_article.php">Ajouter un article</a></li>
-                    <?php }
-                    ?>
-                    <li class="nav-item"><a class="nav-link" href="../../templates/profil.php">Profil</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../../core/actions/logout.php">Déconnexion</a></li>
-                <?php } else { ?>
-                    <li class="nav-item"><a class="nav-link" href="../../templates/login.php">Connexion</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../../templates/register.php">Inscription</a></li>
-                <?php } ?>
-            </ul>
+        <ul class="navbar-nav">
+            <?php if (isset($_SESSION["id"])): ?>
+                <?php if ($_SESSION["role"] == "admin"): ?>
+                    <li class="nav-item"><a class="nav-link" href="../../templates/panel.php">Panel</a></li>
+                <?php endif; ?>
+                <?php if ($_SESSION["role"] == "admin" || $_SESSION["role"] == "editeur"): ?>
+                    <li class="nav-item"><a class="nav-link" href="../../core/actions/add_article.php">Ajouter un article</a></li>
+                <?php endif; ?>
+                <li class="nav-item"><a class="nav-link" href="../../templates/profil.php">Profil</a></li>
+                <li class="nav-item"><a class="nav-link" href="../../core/actions/logout.php">Déconnexion</a></li>
+            <?php else: ?>
+                <li class="nav-item"><a class="nav-link" href="../../templates/login.php">Connexion</a></li>
+                <li class="nav-item"><a class="nav-link" href="../../templates/register.php">Inscription</a></li>
+            <?php endif; ?>
+        </ul>
         </div>
     </nav>
 </header>

@@ -60,7 +60,7 @@ if (isset($_GET["slug"])) {
         ?>
     </section>
 
-    <?php if (isset($_SESSION["id"]) && ($_SESSION["role"] == "editeur" || $_SESSION["role"] == "admin")) { ?>
+    <?php if (isset($_SESSION["id"]) && ($_SESSION["role"] == "editeur" || $_SESSION["role"] == "admin")) : ?>
         <!-- Lien pour éditer l'article si l'utilisateur est un éditeur ou un administrateur -->
         <div class="edit-link my-4">
             <a href="../core/actions/edit-article.php?id_article=<?= $article['id'] ?>" class="btn btn-primary me-3">Editer</a>
@@ -69,7 +69,7 @@ if (isset($_GET["slug"])) {
                 <button id="delete-btn" class="btn btn-danger">Supprimer</button>
             </form>
         </div>
-    <?php } ?>  
+    <?php endif; ?>  
 </main>
 
 <?php

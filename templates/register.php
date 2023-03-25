@@ -101,7 +101,7 @@ require_once '../core/includes/header.php';
           <label for="pays" class="form-label">Pays</label>
           <input type="text" class="form-control" id="pays" name="pays">
         </div>
-        <button type="submit" class="btn btn-primary w-100">Créer</button>
+        <button class="btn btn-primary w-100">Créer</button>
       </form>
     </div>
   </div>

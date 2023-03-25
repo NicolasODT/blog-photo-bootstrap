@@ -69,7 +69,7 @@ require_once '../core/includes/header.php';
           <label for="pays">Pays:</label>
           <input type="text" name="pays" id="pays" class="form-control" value="<?= $utilisateur['pays'] ?>">
         </div>
-        <button type="submit" name="submit" class="btn btn-primary mt-2 w-100">Enregistrer</button>
+        <button name="submit" class="btn btn-primary mt-2 w-100">Enregistrer</button>
       </form>
     </div>
   </div>
@@ -80,8 +80,7 @@ require_once '../core/includes/header.php';
       // Vérifie s'il y a des commentaires à afficher
       if (count($commentaires) > 0) {
         // Affiche chaque commentaire récupéré de la base de données
-        foreach ($commentaires as $commentaire) {
-      ?>
+        foreach ($commentaires as $commentaire): ?>
           <div class="col-md-4">
             <div class="commentaire border rounded">
               <h3>Article : <?= substr($commentaire["article_titre"], 0, 16) ?>...</h3>
@@ -90,8 +89,7 @@ require_once '../core/includes/header.php';
               <p class="date"><?= $commentaire["date_creation"] ?></p>
             </div>
           </div>
-      <?php
-        }
+      <?php endforeach;
       } else {
         echo "<p class='text-center'>Aucun commentaire trouvé.</p>";
       }

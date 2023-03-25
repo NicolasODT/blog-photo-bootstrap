@@ -29,7 +29,7 @@ require_once '../core/includes/header.php';
         <form action="" method="get" class="mt-3 mb-5">
     <div class="input-group">
         <input type="text" name="search" class="form-control" placeholder="Recherche..." value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
-        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+        <button class="btn btn-primary"><i class="fas fa-search"></i></button>
     </div>
 </form>
 
@@ -60,13 +60,13 @@ require_once '../core/includes/header.php';
                                 <option value="editeur" <?= $utilisateur['role'] == 'editeur' ? 'selected' : '' ?>>Editeur</option>
                                 <option value="admin" <?= $utilisateur['role'] == 'admin' ? 'selected' : '' ?>>Admin</option>
                             </select>
-                            <button type="submit" class="btn btn-primary">Modifier le rôle</button>
+                            <button class="btn btn-primary">Modifier le rôle</button>
                         </form>
                         <!-- Formulaire d'activation/désactivation -->
                         <form action="../core/actions/desactiver_utilisateur.php" method="post" class="d-inline">
                             <input type="hidden" name="id" value="<?= $utilisateur['id'] ?>">
                             <input type="hidden" name="actif" value="<?= $utilisateur['actif'] ? 0 : 1 ?>">
-                            <button type="submit" class="btn btn-danger"><?= $utilisateur['actif'] ? 'Désactiver' : 'Activer' ?></button>
+                            <button class="btn btn-danger"><?= $utilisateur['actif'] ? 'Désactiver' : 'Activer' ?></button>
                         </form>
                     </td>
                 </tr>
