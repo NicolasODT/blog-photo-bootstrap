@@ -65,9 +65,9 @@ require_once '../core/includes/header.php';
                 </div>
                 <div class="card-body ">
                     <form action="" method="post" class="form-login">
-                        <?php if (!empty($errorMsg)) { ?>
-                            <p class="alert alert-danger"><?= $errorMsg ?></p>
-                        <?php } ?>
+                        <?php if (isset($errorMsg)) : ?>
+                            <p class="alert alert-danger"><?= $errorMsg ;?></p>
+                        <?php endif; ?>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email ou pseudo</label>
                             <input type="text" name="email" id="email" class="form-control" required>
