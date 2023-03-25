@@ -13,48 +13,57 @@ if (
 
     // Validation de l'adresse email
     if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
-      echo "<p class='alert alert-danger'>Adresse email invalide</p>";
-      exit();
-    }
-
-    // Vérification que le mot de passe est suffisamment long
-    if (strlen($_POST["password"]) < 8) {
-      echo "<p class='alert alert-danger'>Le mot de passe doit contenir au moins 8 caractères</p>";
-      exit();
-    }
-
-    // Nettoyage des données
-    $email = htmlspecialchars(trim($_POST["email"]));
-    $password = htmlspecialchars(trim($_POST["password"]));
-    $options = [
-      'cost' => 12,
-    ];
-    $password = password_hash($_POST["password"], PASSWORD_BCRYPT, $options);
-    $pseudo = htmlspecialchars(trim(isset($_POST["pseudo"]) ? $_POST["pseudo"] : ""));
-    $ville = htmlspecialchars(trim(isset($_POST["ville"]) ? $_POST["ville"] : ""));
-    $pays = htmlspecialchars(trim(isset($_POST["pays"]) ? $_POST["pays"] : ""));
-
-    require_once "../core/includes/connect.php";
-
-    // Construction de la requête SQL d'insertion
-    $sql = "INSERT INTO utilisateur (email, hash, pseudo, ville, pays) VALUES (:email,
-        :password, :pseudo, :ville, :pays);";
-
-    $query = $bdd->prepare($sql);
-    $query->bindParam(":email", $email, PDO::PARAM_STR);
-    $query->bindParam(":password", $password, PDO::PARAM_STR);
-    $query->bindParam(":pseudo", $pseudo, PDO::PARAM_STR);
-    $query->bindParam(":ville", $ville, PDO::PARAM_STR);
-    $query->bindParam(":pays", $pays, PDO::PARAM_STR);
-
-    if ($query->execute()) {
-      echo "<p class='alert alert-success'>Le compte a bien été créé</p>";
-      header('location: ../index.php');
+      $errorMsg = "Adresse email invalide";
     } else {
-      echo "<p class='alert alert-danger'>Ce pseudo / cet adresse email est déja utilisée</p>";
+
+      // Vérification que le mot de passe est suffisamment long
+      if (strlen($_POST["password"]) < 8) {
+        $errorMsg = "Le mot de passe doit contenir au moins 8 caractères";
+      } else {
+
+        // Vérification que le mot de passe est suffisamment complexe
+        $uppercase = preg_match('@[A-Z]@', $_POST["password"]);
+        $lowercase = preg_match('@[a-z]@', $_POST["password"]);
+        $number    = preg_match('@[0-9]@', $_POST["password"]);
+
+        if (!$uppercase || !$lowercase || !$number) {
+          $errorMsg = "Le mot de passe doit contenir au moins une majuscule, une minuscule et un chiffre";
+        } else {
+
+          // Nettoyage des données
+          $email = htmlspecialchars(trim($_POST["email"]));
+          $password = htmlspecialchars(trim($_POST["password"]));
+          $options = [
+            'cost' => 12,
+          ];
+          $password = password_hash($_POST["password"], PASSWORD_BCRYPT, $options);
+          $pseudo = htmlspecialchars(trim(isset($_POST["pseudo"]) ? $_POST["pseudo"] : ""));
+          $ville = htmlspecialchars(trim(isset($_POST["ville"]) ? $_POST["ville"] : ""));
+          $pays = htmlspecialchars(trim(isset($_POST["pays"]) ? $_POST["pays"] : ""));
+
+          require_once "../core/includes/connect.php";
+
+          // Construction de la requête SQL d'insertion
+          $sql = "INSERT INTO utilisateur (email, hash, pseudo, ville, pays) VALUES (:email,
+              :password, :pseudo, :ville, :pays);";
+
+          $query = $bdd->prepare($sql);
+          $query->bindParam(":email", $email, PDO::PARAM_STR);
+          $query->bindParam(":password", $password, PDO::PARAM_STR);
+          $query->bindParam(":pseudo", $pseudo, PDO::PARAM_STR);
+          $query->bindParam(":ville", $ville, PDO::PARAM_STR);
+          $query->bindParam(":pays", $pays, PDO::PARAM_STR);
+
+          if ($query->execute()) {
+            header('location: ../index.php');
+          } else {
+            $errorMsg = "Ce pseudo / cet adresse email est déja utilisée";
+          }
+        }
+      }
     }
   } else {
-    echo "<p class='alert alert-danger'>mots de passe différents</p>";
+    $errorMsg = "Mots de passe différents";
   }
 }
 require_once '../core/includes/header.php';
@@ -63,7 +72,10 @@ require_once '../core/includes/header.php';
 <main class="container">
   <div class="row justify-content-center mt-5">
     <div class="col-md-6">
-      <h1 class="mb-3">Créer un compte</h1>
+    <h1 class="mb-3">Créer un compte</h1>
+      <?php if (isset($errorMsg)): ?>
+        <p class="alert alert-danger"><?= $errorMsg; ?></p>
+      <?php endif; ?>
       <form class="mt-3" action="" method="post">
         <div class="mb-3">
           <label for="email" class="form-label">Adresse e-mail</label>
@@ -92,7 +104,6 @@ require_once '../core/includes/header.php';
         <button type="submit" class="btn btn-primary w-100">Créer</button>
       </form>
     </div>
-  </div>
   </div>
 </main>
 <?php
