@@ -57,7 +57,7 @@ if (
           if ($query->execute()) {
             header('location: ../index.php');
           } else {
-            $errorMsg = "Ce pseudo / cet adresse email est déja utilisée";
+            $errorMsg = "Ce pseudo ou cet adresse email est déja utilisée";
           }
         }
       }

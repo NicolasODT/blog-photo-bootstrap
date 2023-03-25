@@ -59,7 +59,7 @@ require_once './core/includes/header.php';
         <?php
             }
         } else {
-            echo "Aucun article trouvé.";
+            echo '<p class="alert alert-danger m-auto mt-4 w-75">Aucun article trouvé.</p>';
         }
         ?>
     </div>
