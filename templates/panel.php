@@ -28,7 +28,6 @@ require_once '../core/includes/header.php';
 ?>
     <div class="container">
         <h1 class="my-5">Liste des utilisateurs</h1>
-
         <form action="" method="get" class="mt-3 mb-5">
     <div class="input-group">
         <input type="text" name="search" class="form-control" placeholder="Recherche..." value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">

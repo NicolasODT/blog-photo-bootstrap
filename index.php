@@ -21,8 +21,10 @@ require_once './core/includes/header.php';
         require_once './core/includes/connect.php';
 
         // Définition des variables de pagination
+        // is_numeric() vérifie si la variable est un nombre
+        // intval() convertit la variable en nombre entier
         $limit = 10; // nombre d'articles par page
-        $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
+        $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1; // numéro de la page courante
         $offset = ($page - 1) * $limit; // nombre d'articles à sauter pour atteindre la page demandée
         
         // Construction de la requête SQL selon la présence ou non d'un mot-clé de recherche
@@ -37,7 +39,6 @@ require_once './core/includes/header.php';
             $stmt = $bdd->prepare($sql);
             $stmt->execute();
         }
-
         $result = $stmt->fetchAll();
 
         // Affichage des cartes d'articles en limitant le titre et le contenu

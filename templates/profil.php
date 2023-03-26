@@ -17,7 +17,7 @@ $utilisateur = $stmt->fetch();
 // is_numeric() vérifie si la variable est un nombre
 // intval() convertit une variable en nombre entier
 $limit = 6; // Nombre de commentaires par page
-$page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1; // Numéro de la page
 $offset = ($page - 1) * $limit; // Calcul de l'offset
 
 $sql = "SELECT c.*, a.titre AS article_titre, a.image AS article_image FROM Commentaire c JOIN Article a ON c.id_article = a.id WHERE c.id_utilisateur = :id_utilisateur ORDER BY c.date_creation DESC LIMIT :limit OFFSET :offset";
