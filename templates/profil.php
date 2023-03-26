@@ -32,17 +32,28 @@ $commentaires = $stmt->fetchAll();
 // password_hash() crypte le mot de passe
 // htmlspecialchars() convertit les caractères spéciaux en entités HTML
 if (isset($_POST['submit'])) {
-  $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-  $ville = htmlspecialchars($_POST['ville']);
-  $pays = htmlspecialchars($_POST['pays']);
+  $password = $_POST['password'];
+  
+  // Vérification de la complexité du mot de passe
+  $uppercase = preg_match('@[A-Z]@', $password);
+  $lowercase = preg_match('@[a-z]@', $password);
+  $number = preg_match('@[0-9]@', $password);
 
-  // les ? sont des paramètres qui seront remplacés par les valeurs du tableau [$password, $ville, $pays, $_SESSION['id']]
-  $query = "UPDATE Utilisateur SET hash = ?, ville = ?, pays = ? WHERE id = ?";
-  $stmt = $bdd->prepare($query);
-  $stmt->execute([$password, $ville, $pays, $_SESSION['id']]);
+  if (!$uppercase || !$lowercase || !$number || strlen($password) < 8) {
+    $passwordError = 'Le mot de passe doit comporter au moins 8 caractères, une majuscule, une minuscule et un chiffre';
+  } else {
+    $password = password_hash($password, PASSWORD_DEFAULT);
 
-  header("Location: profil.php");
-  exit;
+    $ville = htmlspecialchars($_POST['ville']);
+    $pays = htmlspecialchars($_POST['pays']);
+
+    $query = "UPDATE Utilisateur SET hash = ?, ville = ?, pays = ? WHERE id = ?";
+    $stmt = $bdd->prepare($query);
+    $stmt->execute([$password, $ville, $pays, $_SESSION['id']]);
+
+    header("Location: profil.php");
+    exit;
+  }
 }
 
 require_once '../core/includes/header.php';
@@ -65,6 +76,9 @@ require_once '../core/includes/header.php';
         <div class="form-group">
           <label for="password">Nouveau mot de passe:</label>
           <input type="password" name="password" id="password" class="form-control" placeholder="*********" required>
+          <?php if (isset($passwordError)) : ?>
+          <p class="text-danger"><?= $passwordError ?></p>
+          <?php endif; ?>
         </div>
         <div class="form-group">
           <label for="ville">Ville:</label>
@@ -129,3 +143,4 @@ require_once '../core/includes/header.php';
 <?php
 require_once '../core/includes/footer.php';
 ?>
+

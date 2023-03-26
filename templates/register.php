@@ -17,20 +17,15 @@ if (
       $errorMsg = "Adresse email invalide";
     } else {
 
-      // Vérification que le mot de passe est suffisamment long
-      // strlen() compte le nombre de caractères d'une chaîne
-      if (strlen($_POST["password"]) < 8) {
-        $errorMsg = "Le mot de passe doit contenir au moins 8 caractères";
-      } else {
-
-        // Vérification que le mot de passe est suffisamment complexe
+        // strlen() compte le nombre de caractères d'une chaîne
+        // Vérification que le mot de passe est suffisamment complexe et long
         // preg_match() effectue une recherche de correspondance avec une expression rationnelle
         $uppercase = preg_match('@[A-Z]@', $_POST["password"]);
         $lowercase = preg_match('@[a-z]@', $_POST["password"]);
         $number    = preg_match('@[0-9]@', $_POST["password"]);
 
-        if (!$uppercase || !$lowercase || !$number) {
-          $errorMsg = "Le mot de passe doit contenir au moins une majuscule, une minuscule et un chiffre";
+        if (strlen($_POST["password"]) < 8 || !$uppercase || !$lowercase || !$number) {
+          $errorMsg = "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre";
         } else {
 
           // Nettoyage des données
@@ -49,26 +44,38 @@ if (
           $pays = htmlspecialchars(trim(isset($_POST["pays"]) ? $_POST["pays"] : ""));
 
           require_once "../core/includes/connect.php";
+             // Vérification si l'email ou le pseudo existe déjà
+            $checkExistenceSql = "SELECT * FROM utilisateur WHERE email = :checkEmail OR pseudo = :checkPseudo";
+            $checkExistenceQuery = $bdd->prepare($checkExistenceSql);
+            $checkExistenceQuery->bindParam(":checkEmail", $email, PDO::PARAM_STR);
+            $checkExistenceQuery->bindParam(":checkPseudo", $pseudo, PDO::PARAM_STR);
+            $checkExistenceQuery->execute();
+            
+            if ($checkExistenceQuery->rowCount() > 0) {
+               // L'email ou le pseudo existe déjà
+              $errorMsg = "Ce pseudo ou cet adresse email est déja utilisée";
+            } else {
 
-          // Construction de la requête SQL d'insertion
-          $sql = "INSERT INTO utilisateur (email, hash, pseudo, ville, pays) VALUES (:email,
-              :password, :pseudo, :ville, :pays);";
+        // Construction de la requête SQL d'insertion
+        $sql = "INSERT INTO utilisateur (email, hash, pseudo, ville, pays) VALUES (:email,
+        :password, :pseudo, :ville, :pays);";
 
-          $query = $bdd->prepare($sql);
-          $query->bindParam(":email", $email, PDO::PARAM_STR);
-          $query->bindParam(":password", $password, PDO::PARAM_STR);
-          $query->bindParam(":pseudo", $pseudo, PDO::PARAM_STR);
-          $query->bindParam(":ville", $ville, PDO::PARAM_STR);
-          $query->bindParam(":pays", $pays, PDO::PARAM_STR);
+        $query = $bdd->prepare($sql);
+        $query->bindParam(":email", $email, PDO::PARAM_STR);
+        $query->bindParam(":password", $password, PDO::PARAM_STR);
+        $query->bindParam(":pseudo", $pseudo, PDO::PARAM_STR);
+        $query->bindParam(":ville", $ville, PDO::PARAM_STR);
+        $query->bindParam(":pays", $pays, PDO::PARAM_STR);
 
-          if ($query->execute()) {
-            header('location: ../index.php');
-          } else {
-            $errorMsg = "Ce pseudo ou cet adresse email est déja utilisée";
-          }
+        if ($query->execute()) {
+          header('location: ../index.php');
+        } else {
+          $errorMsg = "Erreur lors de l'inscription, veuillez réessayer.";
         }
       }
     }
+
+}
   } else {
     $errorMsg = "Mots de passe différents";
   }
