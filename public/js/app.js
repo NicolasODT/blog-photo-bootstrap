@@ -1,4 +1,3 @@
-
 // la fonction fais une preview de l'image et change le display de l'image par défaut
 function previewImage() {
   const preview = document.getElementById("image-preview");
@@ -45,7 +44,6 @@ tinymce.init({
     { value: "Email", title: "Email" },
   ],
 });
-
 
 // message de confirmation de suppression d'un article
 

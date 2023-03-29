@@ -5,9 +5,8 @@ require_once './core/includes/header.php';
 ?>
 
 <main class="container">
-    <div class="logotext d-flex align-items-center justify-content-between text-center">
+    <div class="logotext d-flex align-items-center justify-content-center text-center">
         <img src="./public/media/FOCALE_CREATIVE.jpg" alt="">
-        <h1>FOCALE CREATIVE</h1>
     </div>
     <form class="d-flex justify-content-center my-3" action="" method="get">
         <div class="input-group">
@@ -23,17 +22,17 @@ require_once './core/includes/header.php';
         // Définition des variables de pagination
         // is_numeric() vérifie si la variable est un nombre
         // intval() convertit la variable en nombre entier
-        $limit = 10; // nombre d'articles par page
+        $limit = 12; // nombre d'articles par page
         $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1; // numéro de la page courante
         $offset = ($page - 1) * $limit; // nombre d'articles à sauter pour atteindre la page demandée
-        
+
         // Construction de la requête SQL selon la présence ou non d'un mot-clé de recherche
         // les ? sont des paramètres qui seront remplacés par les valeurs du tableau [$search, $search]
         if (isset($_GET['search'])) {
             $search = '%' . $_GET['search'] . '%';
             $sql = "SELECT a.*, u.pseudo FROM Article a JOIN Utilisateur u ON a.id_utilisateur = u.id WHERE a.titre LIKE ? OR u.pseudo LIKE ? ORDER BY a.date_creation DESC LIMIT $limit OFFSET $offset";
             $stmt = $bdd->prepare($sql);
-            $stmt->execute([$search, $search ]);
+            $stmt->execute([$search, $search]);
         } else {
             $sql = "SELECT a.*, u.pseudo FROM Article a JOIN Utilisateur u ON a.id_utilisateur = u.id ORDER BY a.date_creation DESC LIMIT $limit OFFSET $offset";
             $stmt = $bdd->prepare($sql);
@@ -70,8 +69,8 @@ require_once './core/includes/header.php';
 
     <?php
 
-        // Préparation de la chaîne de requête pour la pagination selon la présence ou non d'un mot-clé de recherche
-        // urlencode() encode une chaîne de caractères en la convertissant en une version compatible avec les URL
+    // Préparation de la chaîne de requête pour la pagination selon la présence ou non d'un mot-clé de recherche
+    // urlencode() encode une chaîne de caractères en la convertissant en une version compatible avec les URL
     $search_query = isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '';
     ?>
     <div class="d-flex justify-content-center my-3">
@@ -82,13 +81,13 @@ require_once './core/includes/header.php';
                         <a href="?page=<?= $page - 1 . $search_query ?>" class="page-link">Précédent</a>
                     </li>
                 <?php endif; ?>
-    
+
                 <?php
                 // Calcul du nombre total de pages
                 // ceil() arrondit un nombre à l'entier supérieur le plus proche.
                 // fetchColumn() retourne la première colonne de la première ligne du jeu de résultats.
                 $total_pages = ceil($bdd->query('SELECT COUNT(*) FROM Article')->fetchColumn() / $limit);
-                 // Affichage des liens de pagination
+                // Affichage des liens de pagination
                 // $i est égal à 1, tant que $i est inférieur ou égal au nombre total de pages, on incrémente $i de 1
                 for ($i = 1; $i <= $total_pages; $i++) :
                     // Si $i est égal à la page courante, on ajoute la classe "active" à la balise <li>
@@ -98,7 +97,7 @@ require_once './core/includes/header.php';
                         <a href="?page=<?= $i . $search_query ?>" class="page-link"><?= $i ?></a>
                     </li>
                 <?php endfor; ?>
-    
+
                 <?php if ($page < $total_pages) : ?>
                     <li class="page-item">
                         <a href="?page=<?= $page + 1 . $search_query ?>" class="page-link">Suivant</a>
@@ -107,7 +106,7 @@ require_once './core/includes/header.php';
             </ul>
         </nav>
     </div>
-    </main>
+</main>
 
 <?php
 require_once './core/includes/footer.php';

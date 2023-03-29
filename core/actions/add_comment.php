@@ -8,7 +8,7 @@ if (isset($_POST['message']) && isset($_POST['id_article'])) {
     $message = htmlspecialchars($_POST['message']);
     $id_article = htmlspecialchars($_POST['id_article']);
 
-     // Vérification que l'utilisateur est connecté et a le rôle autorisé
+    // Vérification que l'utilisateur est connecté et a le rôle autorisé
     if (isset($_SESSION['id']) && (($_SESSION['role'] == 'utilisateur') || ($_SESSION['role'] == 'editeur') || ($_SESSION['role'] == 'admin'))) {
         $user_id = $_SESSION['id'];
         // Requête d'insertion du commentaire dans la base de données
@@ -23,7 +23,7 @@ if (isset($_POST['message']) && isset($_POST['id_article'])) {
         header("Location: ../../templates/article.php?slug=" . $_GET["slug"]);
         exit();
     } else {
-        echo "Vous devez être connecté et avoir un rôle autorisé pour ajouter un commentaire.";
+        echo "Vous devez être connecté pour ajouter un commentaire.";
     }
 } else {
     echo "Une erreur s'est produite lors de l'ajout du commentaire.";

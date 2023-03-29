@@ -33,7 +33,7 @@ $commentaires = $stmt->fetchAll();
 // htmlspecialchars() convertit les caractères spéciaux en entités HTML
 if (isset($_POST['submit'])) {
   $password = $_POST['password'];
-  
+
   // Vérification de la complexité du mot de passe
   $uppercase = preg_match('@[A-Z]@', $password);
   $lowercase = preg_match('@[a-z]@', $password);
@@ -77,7 +77,7 @@ require_once '../core/includes/header.php';
           <label for="password">Nouveau mot de passe:</label>
           <input type="password" name="password" id="password" class="form-control" placeholder="*********" required>
           <?php if (isset($passwordError)) : ?>
-          <p class="text-danger"><?= $passwordError ?></p>
+            <p class="text-danger"><?= $passwordError ?></p>
           <?php endif; ?>
         </div>
         <div class="form-group">
@@ -100,7 +100,7 @@ require_once '../core/includes/header.php';
       if (count($commentaires) > 0) {
         // Affiche chaque commentaire récupéré de la base de données
         // substr() permet de tronquer le titre de l'article à 16 caractères de 0 à 16
-        foreach ($commentaires as $commentaire): ?>
+        foreach ($commentaires as $commentaire) : ?>
           <div class="col-md-4">
             <div class="commentaire border rounded">
               <h3>Article : <?= substr($commentaire["article_titre"], 0, 16) ?>...</h3>
@@ -143,4 +143,3 @@ require_once '../core/includes/header.php';
 <?php
 require_once '../core/includes/footer.php';
 ?>
-

@@ -1,0 +1,38 @@
+.btn {
+  background-color: #9b4209;
+  color: white;
+  border: none;
+}
+
+.btn:hover,
+.btn:focus {
+  background-color: #c48a4c !important;
+  color: white;
+}
+
+.nav-link,
+.navbar-brand:hover {
+  color: #9b4209;
+}
+
+nav img {
+  width: 5%;
+}
+
+.navbar {
+  background-color: white !important;
+}
+
+.page-link {
+  background-color: #9b4209 !important;
+  color: white;
+  border: none;
+}
+
+.zero-article {
+  margin-top: 20px;
+}
+
+footer {
+  border-top: 5px solid #c48a4c;
+}

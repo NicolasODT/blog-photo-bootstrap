@@ -48,7 +48,7 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST['g-recap
                 $errorMsg = 'Mot de passe incorrect';
             }
         } else {
-            $errorMsg = 'Email non trouvé';
+            $errorMsg = 'Email ou pseudo non trouvé';
         }
     } else {
         $errorMsg = 'Erreur reCAPTCHA';
@@ -65,10 +65,10 @@ require_once '../core/includes/header.php';
                 <div class="card-header">
                     <h1 class="card-title">Connexion</h1>
                 </div>
-                <div class="card-body ">
+                <div class="card-body">
                     <form action="" method="post" class="form-login">
                         <?php if (isset($errorMsg)) : ?>
-                            <p class="alert alert-danger"><?= $errorMsg ;?></p>
+                            <p class="alert alert-danger"><?= $errorMsg; ?></p>
                         <?php endif; ?>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email ou pseudo</label>
